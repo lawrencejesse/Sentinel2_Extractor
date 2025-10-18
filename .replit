@@ -1,0 +1,43 @@
+modules = ["python-3.11"]
+[agent]
+expertMode = true
+
+[nix]
+channel = "stable-25_05"
+packages = ["cairo", "ffmpeg-full", "freetype", "geos", "ghostscript", "glibcLocales", "gobject-introspection", "gtk3", "pkg-config", "qhull", "tcl", "tk"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "JupyterLab"
+
+[[workflows.workflow]]
+name = "JupyterLab"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "jupyter notebook --config=jupyter_config.py --no-browser --allow-root"
+waitForPort = 5000
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 40949
+externalPort = 3000
+
+[deployment]
+deploymentTarget = "vm"
+run = ["jupyter", "notebook", "--config=jupyter_config.py", "--no-browser", "--allow-root"]
