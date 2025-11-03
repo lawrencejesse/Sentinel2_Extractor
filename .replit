@@ -34,6 +34,10 @@ waitForPort = 5000
 localPort = 5000
 externalPort = 80
 
+[[ports]]
+localPort = 45177
+externalPort = 3000
+
 [deployment]
 deploymentTarget = "vm"
 run = ["jupyter", "notebook", "--config=jupyter_config.py", "--no-browser", "--allow-root"]
