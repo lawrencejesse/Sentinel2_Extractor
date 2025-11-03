@@ -1,11 +1,12 @@
-# Sentinel2_Extractor
+# Geospatial Analysis with Google Earth Engine
 
 ## Overview
-A Python-based Jupyter notebook project for extracting and analyzing Sentinel-2 satellite imagery data using Google Earth Engine. This project provides tools for geospatial analysis, NDVI calculations, and multi-year productivity raster analysis.
+A Python-based Jupyter notebook project for satellite imagery analysis using Google Earth Engine. Includes tools for Sentinel-2 imagery extraction, NDVI analysis, and cutting-edge reclamation site assessment using AlphaEarth Foundation embeddings.
 
 ## Project Structure
-- **Sentinel2_RasterExtractor.ipynb** - Main tool for extracting Sentinel-2 imagery from Google Earth Engine (NDVI, NDMI, RGB products)
-- **Multi_Year_ProductivityRaster.ipynb** - Analyzes multi-year NDVI productivity data
+- **Reclamation_Analysis_AEF.ipynb** - **NEW!** Oilfield reclamation assessment using AlphaEarth Foundation 64D embeddings and difference-in-differences methodology
+- **Sentinel2_RasterExtractor.ipynb** - Extract Sentinel-2 imagery from Google Earth Engine (NDVI, NDMI, RGB products)
+- **Multi_Year_ProductivityRaster.ipynb** - Analyze multi-year NDVI productivity data
 - **NDVI_Mean_and_St_Dev_Bell_Curve_V1.ipynb** - Statistical analysis of NDVI data with bell curve visualization
 
 ## Technology Stack
@@ -36,7 +37,25 @@ The project runs on JupyterLab server on port 5000. Simply start the workflow to
 - Notebooks are originally designed for Google Colab but adapted for local JupyterLab use
 - Output files (GeoTIFF, rasters) are saved locally and can be downloaded
 
+## Reclamation Analysis Features (NEW)
+The Reclamation_Analysis_AEF.ipynb notebook provides:
+- **File Upload Widgets**: Upload field and lease boundary polygons (KML, GeoJSON, SHP/ZIP)
+- **Crop History Extraction**: Automatically identify crop types from AAFC Annual Crop Inventory (2017-2023)
+- **Regional Reference Building**: Sample healthy cropland of same type within configurable radius
+- **Difference-in-Differences Analysis**: Compare lease performance vs background field vs regional reference
+- **Recovery Trajectory Visualization**: Track reclamation progress over time with cosine similarity metrics
+- **Smart Fallback**: Automatically expands search radius if insufficient regional samples found
+
+## Methodology
+Uses Google's AlphaEarth Foundation 64D embeddings to assess whether reclaimed oilfield leases are performing equivalently to surrounding healthy cropland, accounting for regional crop-specific conditions.
+
 ## Recent Changes
+- 2025-11-03: Added Reclamation_Analysis_AEF.ipynb for oilfield reclamation assessment
+  - Integrated AlphaEarth Foundation 64D embeddings
+  - Connected AAFC Annual Crop Inventory for crop type identification
+  - Implemented difference-in-differences methodology
+  - Built interactive file upload workflow with validation
+  - Created comprehensive visualization dashboard
 - 2025-10-18: Initial setup for Replit environment completed
   - Python 3.11 with all required packages installed via uv
   - Jupyter Notebook server configured on port 5000
