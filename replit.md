@@ -50,6 +50,10 @@ The Reclamation_Analysis_AEF.ipynb notebook provides:
 Uses Google's AlphaEarth Foundation 64D embeddings to assess whether reclaimed oilfield leases are performing equivalently to surrounding healthy cropland, accounting for regional crop-specific conditions.
 
 ## Recent Changes
+- 2025-11-05: Fixed AlphaEarth band naming issue in reclamation notebooks
+  - Updated band references from 'embedding_0' format to 'A00' format to match AlphaEarth dataset
+  - Fixed in both Reclamation_Analysis_AEF.ipynb and Reclamation_Analysis_AEFv2.ipynb
+  - This resolves the "Band pattern 'embedding_0' did not match any bands" error
 - 2025-11-03: Added Reclamation_Analysis_AEF.ipynb for oilfield reclamation assessment
   - Integrated AlphaEarth Foundation 64D embeddings
   - Connected AAFC Annual Crop Inventory for crop type identification
