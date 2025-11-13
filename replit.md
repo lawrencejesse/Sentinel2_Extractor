@@ -1,10 +1,11 @@
 # Geospatial Analysis with Google Earth Engine
 
 ## Overview
-A Python-based Jupyter notebook project for satellite imagery analysis using Google Earth Engine. Includes tools for Sentinel-2 imagery extraction, NDVI analysis, and cutting-edge reclamation site assessment using AlphaEarth Foundation embeddings.
+A Python-based Jupyter notebook project for satellite imagery analysis using Google Earth Engine. Includes tools for Sentinel-2 imagery extraction, NDVI analysis, reclamation site assessment using AlphaEarth Foundation embeddings, and robust z-score transformation for comparative field analysis.
 
 ## Project Structure
-- **Reclamation_Analysis_AEF.ipynb** - **NEW!** Oilfield reclamation assessment using AlphaEarth Foundation 64D embeddings and difference-in-differences methodology
+- **Reclamation_Assessment_Robust_Z_Score.ipynb** - **NEW!** Robust z-score analysis for lease vs background field comparison using MAD statistics
+- **Reclamation_Analysis_AEF.ipynb** - Oilfield reclamation assessment using AlphaEarth Foundation 64D embeddings and difference-in-differences methodology
 - **Sentinel2_RasterExtractor.ipynb** - Extract Sentinel-2 imagery from Google Earth Engine (NDVI, NDMI, RGB products)
 - **Multi_Year_ProductivityRaster.ipynb** - Analyze multi-year NDVI productivity data
 - **NDVI_Mean_and_St_Dev_Bell_Curve_V1.ipynb** - Statistical analysis of NDVI data with bell curve visualization
