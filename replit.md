@@ -4,11 +4,19 @@
 A Python-based Jupyter notebook project for satellite imagery analysis using Google Earth Engine. Includes tools for Sentinel-2 imagery extraction, NDVI analysis, reclamation site assessment using AlphaEarth Foundation embeddings, and robust z-score transformation for comparative field analysis.
 
 ## Project Structure
-- **Reclamation_Assessment_Robust_Z_Score.ipynb** - **NEW!** Robust z-score analysis for lease vs background field comparison using MAD statistics
+### Analysis Notebooks
+- **Precipitation_Context_Analysis.ipynb** - **NEW!** ERA-5 Land precipitation analysis with anomaly detection and classification
+- **Reclamation_Assessment_Robust_Z_Score.ipynb** - Robust z-score analysis for lease vs background field comparison using MAD statistics
 - **Reclamation_Analysis_AEF.ipynb** - Oilfield reclamation assessment using AlphaEarth Foundation 64D embeddings and difference-in-differences methodology
+- **Reclamation_Analysis_AEFv2.ipynb** - Simplified analysis with direct lease vs field comparison
+- **Reclamation_Analysis_AEFv3.ipynb** - Extended version with additional features
 - **Sentinel2_RasterExtractor.ipynb** - Extract Sentinel-2 imagery from Google Earth Engine (NDVI, NDMI, RGB products)
 - **Multi_Year_ProductivityRaster.ipynb** - Analyze multi-year NDVI productivity data
 - **NDVI_Mean_and_St_Dev_Bell_Curve_V1.ipynb** - Statistical analysis of NDVI data with bell curve visualization
+
+### Python Modules
+- **precipitation_analysis.py** - ERA-5 precipitation data extraction and anomaly calculation
+- **integrate_precipitation.py** - Integration utilities for weather-adjusted analysis
 
 ## Technology Stack
 - **Python 3.11** with JupyterLab
@@ -38,7 +46,7 @@ The project runs on JupyterLab server on port 5000. Simply start the workflow to
 - Notebooks are originally designed for Google Colab but adapted for local JupyterLab use
 - Output files (GeoTIFF, rasters) are saved locally and can be downloaded
 
-## Reclamation Analysis Features (NEW)
+## Reclamation Analysis Features
 The Reclamation_Analysis_AEF.ipynb notebook provides:
 - **File Upload Widgets**: Upload field and lease boundary polygons (KML, GeoJSON, SHP/ZIP)
 - **Crop History Extraction**: Automatically identify crop types from AAFC Annual Crop Inventory (2017-2023)
@@ -47,10 +55,28 @@ The Reclamation_Analysis_AEF.ipynb notebook provides:
 - **Recovery Trajectory Visualization**: Track reclamation progress over time with cosine similarity metrics
 - **Smart Fallback**: Automatically expands search radius if insufficient regional samples found
 
+## Precipitation Context Features (NEW)
+The Precipitation_Context_Analysis.ipynb notebook provides:
+- **ERA-5 Land Integration**: Monthly precipitation data extraction at 11km resolution
+- **Baseline Statistics**: 10-year normal period calculation (2010-2019)
+- **Anomaly Detection**: Classification of dry/wet conditions relative to normal
+- **Growing Season Focus**: April-October precipitation analysis for crop assessment
+- **Multi-Year Comparison**: Track precipitation patterns across analysis years
+- **Performance Adjustment**: Normalize reclamation metrics for weather effects
+- **Integrated Visualization**: Combined precipitation and performance visualizations
+
 ## Methodology
 Uses Google's AlphaEarth Foundation 64D embeddings to assess whether reclaimed oilfield leases are performing equivalently to surrounding healthy cropland, accounting for regional crop-specific conditions.
 
 ## Recent Changes
+- 2025-11-17: Added ERA-5 Land precipitation context analysis
+  - Created precipitation_analysis.py module for ERA-5 data extraction
+  - Added Precipitation_Context_Analysis.ipynb for weather anomaly detection
+  - Implemented precipitation anomaly classification (Extremely Dry to Extremely Wet)
+  - Created integrate_precipitation.py for combining weather with reclamation analysis
+  - Added precipitation adjustment factors to normalize performance metrics
+  - Enhanced visualizations with weather overlay and integrated analysis
+  - Updated README with comprehensive documentation
 - 2025-11-05: Fixed AlphaEarth band naming issue and added simplified analysis option
   - Updated band references from 'embedding_0' format to 'A00' format to match AlphaEarth dataset
   - Fixed in both Reclamation_Analysis_AEF.ipynb and Reclamation_Analysis_AEFv2.ipynb
