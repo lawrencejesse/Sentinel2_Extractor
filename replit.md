@@ -5,7 +5,8 @@ A Python-based Jupyter notebook project for satellite imagery analysis using Goo
 
 ## Project Structure
 ### Analysis Notebooks
-- **Precipitation_Context_Analysis.ipynb** - **NEW!** ERA-5 Land precipitation analysis with anomaly detection and classification
+- **Background_Data_Extraction.ipynb** - **NEW!** Self-contained notebook for extracting AAFC crop history and ERA-5 precipitation data
+- **Precipitation_Context_Analysis.ipynb** - ERA-5 Land precipitation analysis with anomaly detection and classification
 - **Reclamation_Assessment_Robust_Z_Score.ipynb** - Robust z-score analysis for lease vs background field comparison using MAD statistics
 - **Reclamation_Analysis_AEF.ipynb** - Oilfield reclamation assessment using AlphaEarth Foundation 64D embeddings and difference-in-differences methodology
 - **Reclamation_Analysis_AEFv2.ipynb** - Simplified analysis with direct lease vs field comparison
@@ -69,13 +70,15 @@ The Precipitation_Context_Analysis.ipynb notebook provides:
 Uses Google's AlphaEarth Foundation 64D embeddings to assess whether reclaimed oilfield leases are performing equivalently to surrounding healthy cropland, accounting for regional crop-specific conditions.
 
 ## Recent Changes
-- 2025-11-17: Added ERA-5 Land precipitation context analysis
+- 2025-11-17: Added ERA-5 Land precipitation context analysis and background data extraction
+  - Created Background_Data_Extraction.ipynb - self-contained notebook for extracting AAFC crop and ERA-5 precipitation data
+  - Fixed Earth Engine boolean evaluation issues for proper data extraction
+  - Added configurable date ranges for both AAFC and precipitation analysis
+  - Implemented CSV export for combined environmental dataset
   - Created precipitation_analysis.py module for ERA-5 data extraction
   - Added Precipitation_Context_Analysis.ipynb for weather anomaly detection
   - Implemented precipitation anomaly classification (Extremely Dry to Extremely Wet)
   - Created integrate_precipitation.py for combining weather with reclamation analysis
-  - Added precipitation adjustment factors to normalize performance metrics
-  - Enhanced visualizations with weather overlay and integrated analysis
   - Updated README with comprehensive documentation
 - 2025-11-05: Fixed AlphaEarth band naming issue and added simplified analysis option
   - Updated band references from 'embedding_0' format to 'A00' format to match AlphaEarth dataset
