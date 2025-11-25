@@ -8,6 +8,7 @@ A Python-based Jupyter notebook project for satellite imagery analysis using Goo
 - **Background_Data_Extraction.ipynb** - **NEW!** Self-contained notebook for extracting AAFC crop history and ERA-5 precipitation data
 - **Precipitation_Context_Analysis.ipynb** - ERA-5 Land precipitation analysis with anomaly detection and classification
 - **Reclamation_Assessment_Robust_Z_Score.ipynb** - Robust z-score analysis for lease vs background field comparison using MAD statistics
+- **Reclamation_Analysis_AEFv4.ipynb** - **RECOMMENDED** Latest version with comprehensive fixes for AEF extraction (correct band naming, edge handling, null pixel management)
 - **Reclamation_Analysis_AEF.ipynb** - Oilfield reclamation assessment using AlphaEarth Foundation 64D embeddings and difference-in-differences methodology
 - **Reclamation_Analysis_AEFv2.ipynb** - Simplified analysis with direct lease vs field comparison
 - **Reclamation_Analysis_AEFv3.ipynb** - Extended version with additional features
@@ -70,6 +71,13 @@ The Precipitation_Context_Analysis.ipynb notebook provides:
 Uses Google's AlphaEarth Foundation 64D embeddings to assess whether reclaimed oilfield leases are performing equivalently to surrounding healthy cropland, accounting for regional crop-specific conditions.
 
 ## Recent Changes
+- 2025-11-25: Created Reclamation_Analysis_AEFv4.ipynb with comprehensive fixes
+  - Fixed AlphaEarth band naming to use 'A00-A63' format consistently throughout
+  - Uses `selfMask()` to automatically exclude null/masked edge pixels
+  - Returns `embedding=None` on failure so analysis loop skips invalid years (no zero-vector contamination)
+  - Added minimum pixel count validation (10+ valid pixels required)
+  - Rebuilt lease vs field comparison with proper error handling and status reporting
+  - Clear status messages for each extraction step
 - 2025-11-17: Added ERA-5 Land precipitation context analysis and background data extraction
   - Created Background_Data_Extraction.ipynb - self-contained notebook for extracting AAFC crop and ERA-5 precipitation data
   - Fixed Earth Engine boolean evaluation issues for proper data extraction

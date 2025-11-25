@@ -24,7 +24,8 @@ A comprehensive Python-based geospatial analysis platform using Google Earth Eng
 ## Project Structure
 
 ### Analysis Notebooks
-- `Reclamation_Analysis_AEFv2.ipynb` - Main reclamation assessment with DiD analysis
+- `Reclamation_Analysis_AEFv4.ipynb` - **RECOMMENDED** Latest version with all fixes for AEF band naming and edge handling
+- `Reclamation_Analysis_AEFv2.ipynb` - Previous version with DiD analysis
 - `Reclamation_Analysis_AEF.ipynb` - Original implementation with regional references
 - `Precipitation_Context_Analysis.ipynb` - ERA-5 precipitation analysis and anomaly detection
 - `Reclamation_Assessment_Robust_Z_Score.ipynb` - Statistical anomaly detection
@@ -131,6 +132,12 @@ The analysis accounts for weather impacts:
 ## Recent Updates
 
 ### November 2024
+- **NEW**: v4 notebook with comprehensive fixes for AlphaEarth extraction
+  - Fixed band naming consistently (A00-A63 format)
+  - Uses `selfMask()` to automatically exclude null/masked pixels at edges
+  - Returns explicit failure states that the analysis loop skips (no zero-vector contamination)
+  - Minimum pixel count validation (10+ valid pixels required)
+  - Robust lease vs field comparison with proper error handling
 - **NEW**: ERA-5 Land precipitation integration for weather context
 - **NEW**: Precipitation anomaly classification and adjustment algorithms
 - **NEW**: Integrated visualization combining performance and weather
@@ -144,7 +151,8 @@ The analysis accounts for weather impacts:
 ### Common Issues
 
 1. **"Band pattern 'embedding_0' did not match any bands"**
-   - Solution: Use updated notebooks with 'A00' format band references
+   - Solution: Use `Reclamation_Analysis_AEFv4.ipynb` which has correct 'A00-A63' format
+   - If using older notebooks, restart kernel after updating band references
 
 2. **"No valid crop code found"**
    - Solution: Increase sample_size parameter or check boundary overlap with AAFC data
