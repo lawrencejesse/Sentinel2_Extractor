@@ -24,18 +24,20 @@ A comprehensive Python-based geospatial analysis platform using Google Earth Eng
 ## Project Structure
 
 ### Analysis Notebooks
-- `Reclamation_Analysis_AEFv4.ipynb` - **RECOMMENDED** Latest version with all fixes for AEF band naming and edge handling
-- `Reclamation_Analysis_AEFv2.ipynb` - Previous version with DiD analysis
-- `Reclamation_Analysis_AEF.ipynb` - Original implementation with regional references
-- `Precipitation_Context_Analysis.ipynb` - ERA-5 precipitation analysis and anomaly detection
-- `Reclamation_Assessment_Robust_Z_Score.ipynb` - Statistical anomaly detection
-- `Sentinel2_RasterExtractor.ipynb` - Sentinel-2 imagery extraction
-- `Multi_Year_ProductivityRaster.ipynb` - Multi-year NDVI productivity analysis
-- `NDVI_Mean_and_St_Dev_Bell_Curve_V1.ipynb` - NDVI statistical analysis
+| Notebook | Description |
+|----------|-------------|
+| `Reclamation_Analysis_AEFv4_working.ipynb` | **RECOMMENDED** - Latest version with all fixes for AEF band naming and edge handling using selfMask() |
+| `Reclamation_Assessment_Robust_Z_Score.ipynb` | Robust z-score analysis for lease vs background comparison using MAD statistics |
+| `Reclamation_Assessment_Z_Score_Enhanced.ipynb` | Extended z-score analysis with additional features |
+| `Background_Data_Extraction.ipynb` | Self-contained notebook for extracting AAFC crop history and ERA-5 precipitation data |
+| `Precipitation_Context_Analysis.ipynb` | ERA-5 precipitation analysis and anomaly detection |
+| `Sentinel2_RasterExtractor.ipynb` | Extract Sentinel-2 imagery (NDVI, NDMI, RGB) from Google Earth Engine |
+| `Multi_Year_ProductivityRaster.ipynb` | Multi-year NDVI productivity analysis |
+| `NDVI_Mean_and_St_Dev_Bell_Curve_V1.ipynb` | NDVI statistical analysis with bell curve visualization |
 
-### Python Modules
-- `precipitation_analysis.py` - ERA-5 precipitation extraction and analysis
-- `integrate_precipitation.py` - Integration utilities for precipitation context
+### Output Directories
+- `output_data/` - Generated analysis outputs (CSV, GeoTIFF, visualizations)
+- `attached_assets/` - Uploaded boundary files and assets
 
 ## Getting Started
 
@@ -46,10 +48,7 @@ A comprehensive Python-based geospatial analysis platform using Google Earth Eng
 
 ### Installation
 
-1. Install required packages:
-   ```bash
-   uv pip install -r pyproject.toml
-   ```
+1. All dependencies are pre-installed via uv package manager
 
 2. Authenticate with Google Earth Engine:
    ```python
@@ -58,21 +57,25 @@ A comprehensive Python-based geospatial analysis platform using Google Earth Eng
    ee.Initialize(project="your-project-id")
    ```
 
-3. Launch JupyterLab:
-   ```bash
-   jupyter lab --port=5000 --ip=0.0.0.0
-   ```
+3. Launch JupyterLab (runs automatically on port 5000)
 
 ## Analysis Workflows
 
-### 1. Basic Reclamation Assessment
+### 1. Reclamation Assessment with AlphaEarth Embeddings
 
-Start with `Reclamation_Analysis_AEFv2.ipynb`:
+Use `Reclamation_Analysis_AEFv4_working.ipynb`:
 - Upload field boundary (KML/GeoJSON/SHP)
 - Upload lease boundary polygon
-- Automatic crop type extraction
-- Compare lease vs background field performance
+- Automatic crop type extraction from AAFC
+- Extract 64D AlphaEarth embeddings for lease and background
+- Compare using cosine similarity metrics
 - Generate recovery trajectory visualization
+
+**Key Features of v4:**
+- Uses `selfMask()` to automatically exclude null/masked pixels at edges
+- Returns explicit failure states that the analysis loop skips
+- Minimum 10 valid pixels required for embedding computation
+- Correct A00-A63 band naming format
 
 ### 2. Precipitation Context Analysis
 
@@ -82,30 +85,34 @@ Use `Precipitation_Context_Analysis.ipynb`:
 - Classify conditions (Extremely Dry to Extremely Wet)
 - Generate monthly and seasonal anomaly reports
 
-### 3. Integrated Analysis
+### 3. Background Data Extraction
 
-Combine reclamation and precipitation data:
-```python
-from integrate_precipitation import integrate_precipitation_with_notebook
+Use `Background_Data_Extraction.ipynb`:
+- Extract AAFC crop history for any location
+- Pull ERA-5 precipitation data with anomaly calculations
+- Export combined environmental dataset to CSV
 
-# Run after completing reclamation analysis
-enhanced_results = integrate_precipitation_with_notebook(results_df)
-```
+### 4. Robust Z-Score Analysis
+
+Use `Reclamation_Assessment_Robust_Z_Score.ipynb`:
+- Compare lease performance against background field
+- Use Median Absolute Deviation for robust statistics
+- Identify anomalous years in reclamation trajectory
 
 ## Methodology
 
-### Difference-in-Differences (DiD) Approach
+### AlphaEarth Embedding Comparison
 
-The platform uses a DiD methodology to assess reclamation success:
+The platform uses 64-dimensional embeddings from AlphaEarth Foundation to assess reclamation success:
 
-```
-DiD Score = (Lease vs Regional) - (Background vs Regional)
-```
+1. **Extract embeddings** for lease area and background (field minus lease)
+2. **Compute cosine similarity** between lease and background
+3. **Track trajectory** over time (2017-2023)
 
 **Interpretation**:
-- DiD ≈ 0 (±0.05): Lease performing equivalently → **Reclamation Success**
-- DiD < -0.05: Lease underperforming → **Needs Attention**
-- DiD > 0.05: Lease outperforming (investigate for artifacts)
+- Similarity > 0.95: Lease performing equivalently → **Reclamation Success**
+- Similarity 0.85-0.95: Lease recovering → **On Track**
+- Similarity < 0.85: Lease underperforming → **Needs Attention**
 
 ### Precipitation Adjustment
 
@@ -119,9 +126,7 @@ The analysis accounts for weather impacts:
 ### Generated Files
 - `reclamation_analysis_results.csv`: Time series of performance metrics
 - `precipitation_context.json`: Weather anomaly data
-- `enhanced_reclamation_results.csv`: Integrated analysis with weather adjustment
-- `integrated_analysis.png`: Combined visualization
-- `enhanced_summary.txt`: Comprehensive assessment report
+- GeoTIFF rasters: Spatial analysis outputs
 
 ### Visualizations
 1. **Recovery Trajectory**: Cosine similarity trends over time
@@ -131,34 +136,30 @@ The analysis accounts for weather impacts:
 
 ## Recent Updates
 
-### November 2024
-- **NEW**: v4 notebook with comprehensive fixes for AlphaEarth extraction
+### November 2025
+- **v4 notebook** with comprehensive fixes for AlphaEarth extraction
   - Fixed band naming consistently (A00-A63 format)
   - Uses `selfMask()` to automatically exclude null/masked pixels at edges
   - Returns explicit failure states that the analysis loop skips (no zero-vector contamination)
   - Minimum pixel count validation (10+ valid pixels required)
   - Robust lease vs field comparison with proper error handling
-- **NEW**: ERA-5 Land precipitation integration for weather context
-- **NEW**: Precipitation anomaly classification and adjustment algorithms
-- **NEW**: Integrated visualization combining performance and weather
-- **NEW**: Enhanced summary reports with weather-adjusted metrics
-- Fixed AlphaEarth band naming issue (embedding_0 → A00)
-- Added simplified analysis option (v2 notebook)
-- Implemented smart fallback for insufficient regional samples
+- ERA-5 Land precipitation integration for weather context
+- Background Data Extraction notebook for environmental data
+- Precipitation anomaly classification and adjustment algorithms
 
 ## Troubleshooting
 
 ### Common Issues
 
 1. **"Band pattern 'embedding_0' did not match any bands"**
-   - Solution: Use `Reclamation_Analysis_AEFv4.ipynb` which has correct 'A00-A63' format
-   - If using older notebooks, restart kernel after updating band references
+   - Solution: Use `Reclamation_Analysis_AEFv4_working.ipynb` which has correct 'A00-A63' format
 
 2. **"No valid crop code found"**
    - Solution: Increase sample_size parameter or check boundary overlap with AAFC data
 
-3. **"Insufficient regional samples"**
-   - Solution: System will automatically expand search radius (smart fallback)
+3. **"Insufficient pixels" warning**
+   - This is expected when lease boundary extends beyond valid data coverage
+   - The v4 notebook handles this gracefully by skipping invalid years
 
 4. **Precipitation data not loading**
    - Solution: Ensure ERA-5 Land collection access in GEE project
@@ -167,7 +168,7 @@ The analysis accounts for weather impacts:
 
 ### Core Libraries
 - **Geospatial**: earthengine-api, geemap, geopandas, rasterio, fiona, shapely
-- **Data Analysis**: numpy, pandas, scipy
+- **Data Analysis**: numpy, pandas
 - **Visualization**: matplotlib, ipywidgets
 - **Notebook Environment**: jupyterlab, notebook
 
